@@ -28,7 +28,7 @@
 
 **Использованные библиотеки и модули**<br>
 * `google.auth`, `httplib2`, `apiclient`, `os.path` – подключение к Google Sheets API, Google Drive API, Google Cloud, авторизация в аккаунте Google и предоставления прав для просмотра и редактирования файла
-* `pygsheet` – чтение данных из таблицы Google Sheets и иъ конвертация в `DataFrame`
+* `pygsheet` – чтение данных из таблицы Google Sheets и их конвертация в `DataFrame`
 * `pandas` – запись `DataFrame` в csv-файл в процессе конвертации, чтение из csv-файла в виде `DataFrame` в основной части кода приложения, чтение значений из `DataFrame`, преобразование `DataFrame` в таблицу типа `ndarray`
 * `numpy` – работа с созданной таблицей `ndarray`, создание трех моделей кубической регрессии с помощью модуля `numpy.poly1d`
 * `matplotlib` – создание графиков уравнений кубической регрессии (зависимость свойств от состава), их вывод на экран и сохранение в виде png-изображения
@@ -86,17 +86,19 @@
 Неверный формат ввода.
 ```
 Также на основе выбранной системы и указанной концентрации программа создаст название сплава в соответствии с принятым форматом и запишет его в виде строки в переменную `alloy_name`:
-```
+````
 alloy_name = f'{alloy_dict[user_system][0][:2]}-{int(user_concentration // 1)},' \
              f'{int(user_concentration % 1)}%{alloy_dict[user_system][0][3:-2]}'
-```
-Далее программа с помощью модуля `numpy.poly1d` создает три модели кубической регрессии для каждого из механических свойств (твердости, прочность и пластичности), т. е. функцию вида ``y = a0 + a1*x + a2*x**2 + a3*x**3``, и подбирает такие коэффициента `a0`, `a1`, `a2`, `a3`, чтобы отклонение любого спрогнозированного и экспериментального значения было минимальным. Подробнее см. [Регрессионный анализ](https://habr.com/ru/articles/690414 "Регрессионный анализ на Хабре") и [Метод наименьших квадратов](https://habr.com/ru/articles/672540 "МНК на Хабре").
+
+Cu-33,0%Ni
+````
+Далее программа с помощью модуля `numpy.poly1d` создает три модели кубической регрессии для каждого из механических свойств (твердости, прочности и пластичности), т. е. функцию вида ``y = a0 + a1*x + a2*x**2 + a3*x**3``, и подбирает такие коэффициенты `a0`, `a1`, `a2`, `a3`, чтобы отклонение любого спрогнозированного и экспериментального значения было минимальным. Подробнее см. [Регрессионный анализ](https://habr.com/ru/articles/690414 "Регрессионный анализ на Хабре") и [Метод наименьших квадратов](https://habr.com/ru/articles/672540 "МНК на Хабре").
 ```
 hardness_model = np.poly1d(np.polyfit(concentration, hardness, 3))
 toughness_model = np.poly1d(np.polyfit(concentration, toughness, 3))
 plasticity_model = np.poly1d(np.polyfit(concentration, plasticity, 3))
 ```
-С помощью `matplotlib` строятся графики рассчитанных функций с указанными на ними пользовательскими значениями концентрации и спрогронизрованными значениями механических свойств.
+С помощью `matplotlib` строятся графики рассчитанных функций с указанными на ними пользовательскими значениями концентрации и спрогронзированными значениями механических свойств.
 ```
 polyline = np.linspace(1, max_concentration + 10, 500)
 fig, axs = plt.subplots(1, 3, figsize=(14, 6))
@@ -157,6 +159,6 @@ axs[0].set_title(f'Твердость, {user_alloy.columns[1]}') # Для раз
 1. [Copper-Nickel Alloys: Properties, Processing, Applications](https://www.copper.org/applications/marine/cuni/properties/DKI_booklet.html#1.4)
 2. [Guide to Nickel Aluminium Bronze for Engineers](https://copper.org/applications/marine/nickel_al_bronze/pub-222-nickel-al-bronze-guide-engineers.pdf)
 3. [Mechanical behavior of Al–Cu binary alloy system/ Cu particulates reinforced metal-metal composites](https://www.sciencedirect.com/science/article/pii/S2590123019300465)
-4. [https://nickelinstitute.org/media/1771/propertiesofsomemetalsandalloys_297_.pdf](https://nickelinstitute.org/media/1771/propertiesofsomemetalsandalloys_297_.pdf)
+4. [Properties of some metal alloys](https://nickelinstitute.org/media/1771/propertiesofsomemetalsandalloys_297_.pdf)
 5. [NumPy documantation](https://numpy.org/doc/stable/reference/generated/numpy.poly1d.html)
 6. [Как выполнить полиномиальную регрессию в Python](https://www.codecamp.ru/blog/polynomial-regression-python/)
