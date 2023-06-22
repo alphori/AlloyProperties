@@ -62,7 +62,7 @@ fig, axs = plt.subplots(1, 3, figsize=(14, 6))
 axs[0].scatter(user_concentration, hardness_model(user_concentration), c='blue', label='Прогонзируемые')
 axs[0].plot(polyline, hardness_model(polyline), c='red')
 axs[0].scatter(concentration, hardness, c='red', label='Исходные')
-axs[0].set_title(f'Твердость, {user_alloy.columns[1]}')
+axs[0].set_title(f'Твердость, {user_alloy.columns[1]}') # Для разных систем твердость измеряется в разных ед. изм.
 
 axs[1].plot(polyline, toughness_model(polyline), c='red')
 axs[1].scatter(user_concentration, toughness_model(user_concentration), c='blue')
